@@ -1,5 +1,5 @@
 今天在处理excel时，发现一个特殊的excel文件，不管采用什么编码打开，都会报错‘UnicodeDecodeError: 'utf-16-le' codec can't decode bytes in position 0-1: unexpected end of data’。
-你可以下载一下![这个文件]((../../../assets/posts/2023-12-19-A/demo.xls))试试
+你可以下载一下[这个文件]((../../../assets/posts/2023-12-19-A/demo.xls))试试
 
 处理代码
 ```python
@@ -31,13 +31,17 @@ print(df.head())
 import pandas as pd
 
 def my_unpack_SST_table(datatab, nstrings):
-    for i in range(len(datatab)):
-        datatab[i] = datatab[i].replace(b'\xd8', b'\x00')
-        datatab[i] = datatab[i].replace(b'\xdf', b'\x00')
-        datatab[i] = datatab[i].replace(b'\xdc', b'\x00')
-        datatab[i] = datatab[i].replace(b'\xdd', b'\x00')
-        datatab[i] = datatab[i].replace(b'\xde', b'\x00')
-    return t(datatab, nstrings)
+    try:
+        return t(datatab, nstrings)
+    except:
+        for i in range(len(datatab)):
+            datatab[i] = datatab[i].replace(b'\xd8', b'\x00')
+            datatab[i] = datatab[i].replace(b'\xdf', b'\x00')
+            datatab[i] = datatab[i].replace(b'\xdc', b'\x00')
+            datatab[i] = datatab[i].replace(b'\xdd', b'\x00')
+            datatab[i] = datatab[i].replace(b'\xde', b'\x00')
+ 
+        return t(datatab, nstrings)
 
 
 import xlrd.book

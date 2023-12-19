@@ -3,7 +3,6 @@ _site
 .jekyll-cache
 .jekyll-metadata
 vendor
-tools/article.js
-tools/article_prompt.txt
+# tools/article.js
 tools/test.js
 tools/node_modules
